@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVS workspace - Advanced MCQ Extractor and Solver (Firebase Full Edition)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="themeToggle">??</button>
+    <div class="container">
+        <h1>KVS workspace - Advanced MCQ Extractor and Solver (Firebase Full Edition)</h1>
+        
+        <div id="authContainer">
+            <div id="loginForm">
+                <h2>Login</h2>
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button onclick="login()">Login</button>
+            </div>
+            <div id="signupForm">
+                <h2>Sign Up</h2>
+                <input type="email" id="signupEmail" placeholder="Email">
+                <input type="password" id="signupPassword" placeholder="Password">
+                <button onclick="signup()">Sign Up</button>
+            </div>
+        </div>
+
+        <div id="userInfo" style="display: none;">
+            <p>Logged in as: <span id="userEmail"></span></p>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div id="appContent" style="display: none;">
+            <input type="text" id="apiKey" placeholder="Enter your INPUT" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <select id="modelSelect" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <option value="gemini-1.5-pro-latest">GOAT</option>
+                <option value="gemini-exp-1114">MASTER</option>
+            </select>
+            <div>
+                <label for="pdfInput" class="file-input-label">
+                    Upload PDF
+                    <input type="file" id="pdfInput" accept=".pdf">
+                </label>
+                <label for="imageInput" class="file-input-label">
+                    Add Images
+                    <input type="file" id="imageInput" accept="image/*" multiple>
+                </label>
+                <button onclick="processMCQs(false)">Extract MCQs Only</button>
+                <button onclick="processMCQs(true)">Extract and Solve MCQs</button>
+                <button onclick="orderMCQs()">Order MCQs Numerically</button>
+                <button onclick="copyAllResults()">Copy All Results</button>
+                <button onclick="recheckSolutions()">Recheck Solutions</button>
+                <button onclick="saveToFirebase()">Save Results to Firebase</button>
+            </div>
+            <div id="imageGrid"></div>
+            <div id="progressBar">
+                <div id="progressBarFill"></div>
+            </div>
+            <div id="progressText"></div>
+            <div id="timerDisplay"></div>
+            <div id="resultsContainer"></div>
+            <div id="savedMCQs"></div>
+        </div>
+    </div>
+    <div id="promptBox">
+        <input type="text" id="promptInput" placeholder="Enter your prompt for modifying MCQs...">
+        <label for="promptImageInput" class="prompt-image-label">Add Images</label>
+        <input type="file" id="promptImageInput" accept="image/*" multiple>
+        <div id="promptImages"></div>
+        <button onclick="editPrompt()">Edit Prompt</button>
+        <button onclick="processPrompt()">Process</button>
+        <div id="promptPreview" contenteditable="true" style="display: none;"></div>
+    </div>
+    <audio id="alarmSound" src="https://www.soundjay.com/buttons/button-3.mp3"></audio>
+
+    <div id="cropperModal">
+        <div id="cropperContainer">
+            <img id="cropperImage" src="">
+            <div id="cropperControls">
+                <button class="cropper-btn" onclick="applyCrop()">Apply Crop</button>
+                <button class="cropper-btn" onclick="cancelCrop()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Section -->
+    <div id="chatSection" style="display: none;">
+        <h2>Chat</h2>
+        <div id="chatHistory"></div>
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+
+    <!-- Cropper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
